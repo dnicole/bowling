@@ -12,12 +12,20 @@ class BowlingGame
     @rolls = []
   end
 
-  def roll(pins)
+  # Record a roll in the game.
+  # 
+  # pins - The Integer number of pins 
+  #        knocked down in this roll.
+  #
+  # Returns nothing.
 
+  def roll(pins)
+    @rolls.push(pins)
   end
 
+  # Returns the Integer score for this game.
   def score
-    0
+    @rolls.reduce(:+)
   end
 
 end
