@@ -1,3 +1,7 @@
+require 'bundler/setup'
+require 'rspec'
+require_relative '../bowling_game' 
+
 describe BowlingGame do
   describe '.initialize' do
     it 'sets @rolls to an empty array' do
