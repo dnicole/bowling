@@ -8,8 +8,10 @@ class BowlingGame
   #
   # Returns a new game object.
   
-  def initialize()
+  def initialize
     @rolls = []
+    @total_score = 0
+    @current_roll = 0
   end
 
   # Record a roll in the game.
@@ -25,35 +27,72 @@ class BowlingGame
 
   # Returns the Integer score for this game.
   #
-  # Scores 10 + the number of pins in the next roll
-  # for a spare
-  #
-  # Scores based on pins knocked down per frame if not a spare/strike
-  #
+  # Figures out what player bowled 
+  # and runs appropriate methods to score.
   #
 
   def score
-    total_score = 0
-    current_roll = 0
+    while @current_roll < @rolls.size - 1
+      init_roll
 
-    while current_roll < @rolls.size - 1
-      roll = @rolls[current_roll]
-      next_roll = @rolls[current_roll + 1]
-
-      if roll == 10 #strike
-        total_score += 10 + @rolls[current_roll + 1] + @rolls[current_roll + 2]
-        current_roll += 1
-      elsif roll + next_roll == 10 #spare
-        total_score += 10 + @rolls[current_roll + 2]
-        current_roll += 2
-      else #normal players
-        total_score += roll + next_roll
-        current_roll += 2
+      if strike?
+        score_strike
+      elsif spare?
+        score_spare
+      else
+        score_normal
       end
     end
 
-    return total_score
+    return @total_score
   end
-    #@rolls.reduce(:+) - quick way of summing all numbers in an array
 
+  private
+  
+  # Instantiate a new turn in game.
+  # 
+  # roll    - the current spot in the rolls array.
+  #
+  # rolls   - The array listing all the 
+  #           rolls that have been made in the game
+  #
+  def init_roll
+    @roll = @rolls[@current_roll]
+    @next_roll = @rolls[@current_roll + 1]
+  end
+  
+  # Sets the condition for bowling a strike.
+  #
+  def strike?
+    @roll == 10
+  end
+  
+  # Sets the condition for scoring a strike.
+  #
+  def score_strike
+    @total_score += 10 + @rolls[@current_roll + 1] + @rolls[@current_roll + 2]
+    @current_roll += 1
+  end
+  
+  # Sets the condition for bowling a spare.
+  #
+  def spare?
+    @roll + @next_roll == 10
+  end
+  
+  # Sets condition for scoring a spare.
+  #
+  def score_spare
+    @total_score += 10 + @rolls[@current_roll + 2]
+    @current_roll += 2
+  end
+
+  #Sets condition for scoring a normal roll.
+  #
+  def score_normal
+    @total_score += @roll + @next_roll
+    @current_roll +=2
+  end
 end
+    #@rolls.reduce(:+) - quick way of summing all numbers in an array
+      
