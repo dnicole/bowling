@@ -1,4 +1,4 @@
 bowling
 =======
 
-The bowling repository used in Ruby Testing - part 2.
+The bowling repository used in Ruby Testing - practice part 2.
